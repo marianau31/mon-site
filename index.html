@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NICK'S Sublime Touche</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">NICK'S <span>Sublime Touche</span></div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- CURSORS -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <h1 class="logo">NICK'S <span>Sublime Touche</span></h1>
+  <nav>
+    <ul>
+      <li><a href="#catalogue">Catalogue</a></li>
+      <li><a href="#localisation">Localisation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <button id="darkToggle">🌙</button>
+</header>
+
+<!-- HERO -->
+<section class="hero reveal">
+  <div class="hero-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="overlay">
+    <h2>Créations sur mesure</h2>
+    <p>Style, élégance et originalité</p>
+    <a href="#catalogue" class="btn">Voir le catalogue</a>
+  </div>
+  <div class="hero-ribbon">
+    <div class="ribbon-track">
+      <span>Couture sur mesure</span><span>✦</span>
+      <span>Robes élégantes</span><span>✦</span>
+      <span>Costumes modernes</span><span>✦</span>
+      <span>Tenues traditionnelles</span><span>✦</span>
+      <span>Atelier Cotonou</span><span>✦</span>
+      <span>Couture sur mesure</span><span>✦</span>
+      <span>Robes élégantes</span><span>✦</span>
+      <span>Costumes modernes</span><span>✦</span>
+      <span>Tenues traditionnelles</span><span>✦</span>
+      <span>Atelier Cotonou</span><span>✦</span>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGUE -->
+<section id="catalogue" class="section reveal">
+  <h2>Catalogue</h2>
+  <div class="filters">
+    <button onclick="filterItems('all')" class="active">Tous</button>
+    <button onclick="filterItems('robe')">Robes</button>
+    <button onclick="filterItems('costume')">Costumes</button>
+  </div>
+  <div class="grid">
+    <div class="card robe reveal" onclick="openModal('robe.jpg','Robe élégante')">
+      <img src="robe.jpg" loading="lazy" alt="Robe élégante">
+      <div class="card-content">
+        <div class="card-tag">Collection Robe</div>
+        <h3>Robe élégante</h3>
+        <span class="card-view">Voir en détail →</span>
+      </div>
+    </div>
+    <div class="card costume reveal" onclick="openModal('costume.jpg','Costume moderne')">
+      <img src="costume.jpg" loading="lazy" alt="Costume moderne">
+      <div class="card-content">
+        <div class="card-tag">Collection Costume</div>
+        <h3>Costume moderne</h3>
+        <span class="card-view">Voir en détail →</span>
+      </div>
+    </div>
+    <div class="card reveal" onclick="openModal('tradition.jpg','Tenue traditionnelle')">
+      <img src="tradition.jpg" loading="lazy" alt="Tenue traditionnelle">
+      <div class="card-content">
+        <div class="card-tag">Collection Tradition</div>
+        <h3>Tenue traditionnelle</h3>
+        <span class="card-view">Voir en détail →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCALISATION -->
+<section id="localisation" class="section reveal">
+  <h2>Localisation</h2>
+  <div class="map-pin">📍</div>
+  <p>Cotonou, Bénin</p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section reveal">
+  <h2>Contact</h2>
+  <form id="contactForm">
+    <input type="text" placeholder="Votre nom" required>
+    <input type="email" placeholder="Votre email" required>
+    <textarea placeholder="Votre message" required></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+  <p id="msg"></p>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img id="modal-img" src="" alt="">
+  <p id="modal-text"></p>
+</div>
+
+<!-- FIXED BUTTONS -->
+<button id="topBtn">↑</button>
+<a href="https://wa.me/22962940809" class="whatsapp" target="_blank">💬</a>
+
+<footer>
+  <p>© 2026 Nick's Sublime Touche — Cotonou, Bénin</p>
+</footer>
+
+<script>
+// LOADER
+setTimeout(() => {
+  document.getElementById('loader').classList.add('hide');
+}, 2000);
+
+// CURSOR
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('curRing');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+  setTimeout(() => {
+    curRing.style.left = e.clientX + 'px';
+    curRing.style.top  = e.clientY + 'px';
+  }, 80);
+});
+
+// HEADER SCROLL
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('topBtn').style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+
+// REVEAL ON SCROLL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// MODAL
+function openModal(src, text) {
+  const m = document.getElementById('modal');
+  m.classList.add('open');
+  document.getElementById('modal-img').src = src;
+  document.getElementById('modal-text').innerText = text;
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+// BOUTON TOP
+document.getElementById('topBtn').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+// FILTRE
+function filterItems(cat) {
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = (cat === 'all' || c.classList.contains(cat)) ? 'block' : 'none';
+  });
+}
+
+// DARK MODE
+document.getElementById('darkToggle').onclick = () => {
+  document.body.classList.toggle('dark');
+  document.getElementById('darkToggle').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+};
+
+// 3D TILT + SPOTLIGHT SUR CARTES
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r  = card.getBoundingClientRect();
+    const x  = e.clientX - r.left;
+    const y  = e.clientY - r.top;
+    const cx = r.width / 2;
+    const cy = r.height / 2;
+    card.style.transform = `perspective(1000px) rotateX(${(y - cy) / 28}deg) rotateY(${-(x - cx) / 28}deg)`;
+    card.style.setProperty('--x', x + 'px');
+    card.style.setProperty('--y', y + 'px');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+  });
+});
+
+// FORMULAIRE
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('msg');
+  msg.innerText = 'Message envoyé ✅';
+  this.reset();
+});
+</script>
+</body>
+</html>
